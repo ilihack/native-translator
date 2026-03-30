@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
+  <url>
+    <loc>https://nativtranslator.app/</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://nativtranslator.app/screenshot-wide.png</image:loc>
+      <image:title>nativ translator – Native Translator Desktop View</image:title>
+      <image:caption>nativ translator showing real-time AI voice translation between two languages side by side</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nativtranslator.app/screenshot-mobile.png</image:loc>
+      <image:title>nativ translator – Native Translator Mobile View</image:title>
+      <image:caption>nativ translator mobile interface for real-time voice translation on smartphones</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nativtranslator.app/icon-512.png</image:loc>
+      <image:title>nativ translator App Icon</image:title>
+      <image:caption>Official icon of nativ translator – Native Translator</image:caption>
+    </image:image>
+  </url>
+</urlset>

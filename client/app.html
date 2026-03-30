@@ -1,0 +1,60 @@
+<!--
+  client/app.html — React app entry point for nativ translator.
+
+  Served at /app — the pure translator UI with no landing page, no consent screen.
+  Users arrive here after accepting consent on the landing page (/).
+  PWA start_url points here so installed apps open directly into the translator.
+
+  @see client/index.html for the SEO-optimised landing page with consent flow.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="nativ translator">
+
+  <title>nativ translator – Real-Time AI Voice Translation</title>
+  <meta name="description" content="nativ translator – free real-time AI voice translation in 24 languages. Speak and instantly hear the translation. Powered by Google Gemini.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="color-scheme" content="dark">
+
+  <link rel="preconnect" href="https://generativelanguage.googleapis.com">
+  <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="any" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/app-icon.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #000;
+      font-family: system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <!-- Redirect to landing page if consent has not been given -->
+  <script>
+    (function() {
+      try {
+        var hasConsent = localStorage.getItem('native-translator-consent-v1') === 'accepted'
+          || document.cookie.indexOf('nt_consent_v1=accepted') !== -1;
+        if (!hasConsent) { window.location.replace('/'); }
+      } catch(e) {
+        window.location.replace('/');
+      }
+    })();
+  </script>
+  <div id="root" style="position:fixed;inset:0;background:#000;"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
