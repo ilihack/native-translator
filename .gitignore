@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Replit platform files — not needed for local development or GitHub
+.replit
+replit.md
+.breakpoints
+.config/
+.cache/
+.local/
+.upm/
+generated-icon.png
+replit.nix
+
+# Env files — never commit secrets
+.env
+.env.local
+.env.*.local
+
+# Vite internals
+vite.config.ts.*
+
+# Archives
+*.tar.gz
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Editors
+.vscode/
+.idea/
+
+# Server public (Vite-generated at runtime)
+server/public
+
+# One-time deployment scripts (contain env var references)
+scripts/github-push.mjs

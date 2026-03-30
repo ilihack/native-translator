@@ -1,0 +1,56 @@
+<!--
+  client/index.bare.html — Minimal entry point for nativ translator.
+
+  This file contains ONLY the essentials to boot the React app:
+    - Basic <head> meta tags (viewport, theme, PWA manifest, favicon)
+    - <div id="root"> mount point
+    - Vite module script entry
+
+  NO landing page, NO consent screen, NO SEO content, NO JSON-LD.
+  Use this for deployments where no onboarding / consent flow is needed
+  (e.g. GitLab Pages, internal builds, CI previews).
+
+  How to use:
+    1. Copy this file to  client/index.html  before building/deploying.
+       — OR —
+    2. Run:  bash scripts/use-bare-index.sh   (auto-backup + swap)
+    3. To restore the full version:  bash scripts/use-full-index.sh
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="nativ translator">
+
+  <title>nativ translator – Real-Time AI Voice Translation</title>
+  <meta name="description" content="nativ translator – free real-time AI voice translation in 42 languages. Speak and instantly hear the translation. Powered by Google Gemini.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="preconnect" href="https://generativelanguage.googleapis.com">
+  <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="any" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/app-icon.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #000;
+      font-family: system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" style="position:fixed;inset:0;background:#000;"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

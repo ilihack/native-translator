@@ -1,0 +1,826 @@
+<!--
+  client/index.html — Full landing page for nativ translator.
+
+  This is the SEO-optimised entry point with:
+    - Static <main> (landing page, USP section, FAQ accordion, consent form)
+    - JSON-LD structured data (WebSite, SoftwareApplication, FAQPage)
+    - Open Graph / Twitter Card meta tags
+    - noscript fallback for crawlers without JS
+
+  The landing page is shown to first-time visitors as a consent / onboarding
+  screen. Once consent is given (checkbox + CTA click), it stores consent in
+  localStorage + cookie and redirects to /app.
+  Returning users are redirected immediately via the inline script at body end.
+
+  For deployments WITHOUT the landing page (e.g. GitLab Pages):
+    - Use  client/index.bare.html  (minimal <head> + <div id="root"> only)
+    - Or run:  bash scripts/use-bare-index.sh   (swaps this file, creates backup)
+    - Restore: bash scripts/use-full-index.sh   (restores from backup)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="nativ translator">
+
+  <title>nativ translator – Native Translator | Real-Time AI Voice Translation</title>
+  <meta name="description" content="nativ translator – free real-time AI voice translation in 24 languages. Speak and instantly hear the translation. Powered by Google Gemini. No account needed.">
+  <meta name="keywords" content="nativ translator, nativtranslator, native translator, real-time voice translator, AI voice translation, simultaneous interpreter, Echtzeit Übersetzer, Sprachübersetzer, Google Gemini translator, instant speech translation, audio interpreter, multilingual translator, live translation, nativtranslator.app">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="nativ translator">
+  <link rel="canonical" href="https://nativtranslator.app/">
+
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en" href="https://nativtranslator.app/">
+  <link rel="alternate" hreflang="de" href="https://nativtranslator.app/">
+  <link rel="alternate" hreflang="x-default" href="https://nativtranslator.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nativtranslator.app/">
+  <meta property="og:title" content="nativ translator – Real-Time AI Voice Translation in 24 Languages">
+  <meta property="og:description" content="nativ translator: Free real-time AI voice translation powered by Google Gemini. Speak — hear the translation instantly. 24 languages, no download, no account.">
+  <meta property="og:image" content="https://nativtranslator.app/screenshot-wide.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta property="og:image:alt" content="nativ translator – Native Translator app interface showing real-time voice translation">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="nativ translator">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://nativtranslator.app/">
+  <meta name="twitter:title" content="nativ translator – Real-Time AI Voice Translation">
+  <meta name="twitter:description" content="Free real-time AI voice translation in 24 languages. Powered by Google Gemini. No download, no account. Just speak.">
+  <meta name="twitter:image" content="https://nativtranslator.app/screenshot-wide.png">
+  <meta name="twitter:image:alt" content="nativ translator app interface">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "nativ translator",
+      "alternateName": ["Native Translator", "nativtranslator"],
+      "url": "https://nativtranslator.app/",
+      "description": "Free real-time AI voice translation in 24 languages. Powered by Google Gemini."
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "@id": "https://nativtranslator.app/#app",
+      "name": "nativ translator",
+      "alternateName": ["Native Translator", "nativtranslator"],
+      "url": "https://nativtranslator.app/",
+      "description": "nativ translator is a free real-time AI voice translation app powered by Google Gemini. Speak in one language and instantly hear the translation in another. Supports 24 languages with no download or account required.",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Translation",
+      "operatingSystem": "Web, Android, iOS",
+      "browserRequirements": "Requires microphone access and a modern browser with WebSocket support",
+      "inLanguage": ["en", "zh", "hi", "es", "ar", "fr", "pt", "ru", "id", "ja", "de", "ko", "tr", "vi", "it", "th", "pl", "uk", "nl", "ro", "el", "hu", "cs", "sv"],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "screenshot": [
+        "https://nativtranslator.app/screenshot-wide.png",
+        "https://nativtranslator.app/screenshot-mobile.png"
+      ],
+      "featureList": [
+        "Real-time simultaneous voice translation",
+        "24 languages supported",
+        "Google Gemini AI powered",
+        "No typing required — speak naturally",
+        "No account or download needed",
+        "Works on any modern browser",
+        "Face-to-face translation mode",
+        "Completely free to use",
+        "Context-aware translation adapts to any topic (medical, legal, technical, casual)"
+      ],
+      "creator": {
+        "@type": "Organization",
+        "name": "nativ translator",
+        "url": "https://nativtranslator.app/"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is nativ translator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "nativ translator (Native Translator) is a free real-time AI voice translation app. It lets two people speak different languages and instantly hear each other's words translated — no typing, no app download, no account required. Unlike conventional translators, it works entirely with native audio: voice in, voice out."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is nativ translator the fastest translator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most translators follow a 4-step process: speech to text, text translation, translated text to speech. nativ translator skips the text layer entirely. Your voice is processed directly as audio by Google Gemini Live AI, resulting in near-instant translations at natural conversation speed — making it the fastest real-time translator currently available."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Funny Mode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Funny Mode is a unique feature that adds humor and personality to your translations. Instead of dry, literal translations, the AI interprets your words with a playful, witty twist — perfect for casual conversations, parties, or just having fun with friends across language barriers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I choose different voices?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! nativ translator offers multiple AI voices to choose from. Whether you prefer a warm, deep tone or a bright, energetic one — you can select the voice that feels most natural for your conversation. Each voice is powered by Google Gemini and sounds remarkably human and expressive."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is nativ translator free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, nativ translator is completely free to use. You only need a Google Gemini API key, which Google provides free of charge. No subscription, no in-app purchases."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do I need my own Google API key?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "nativ translator is a free, open project with no ads and no in-app purchases. Native audio-to-audio processing through Google Gemini is significantly more expensive than the simple text-based translation other apps use. Passing that cost on to the developer would make a free service impossible. By using your own free Gemini API key, you get unlimited personal use at zero cost — and your data stays between you and Google, with no middleman."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which languages does nativ translator support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "nativ translator supports 24 languages including English, German, Spanish, French, Italian, Portuguese, Chinese, Japanese, Korean, Arabic, Hindi, Dutch, Russian, Polish, Turkish, Czech, Swedish, Romanian, Hungarian, Greek, Ukrainian, Vietnamese, Thai, and Indonesian."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does nativ translator store my voice data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. nativ translator does not store any audio or voice data. Your voice is streamed in real-time to Google LLC via the Gemini Live API for translation, and not retained. Google LLC is certified under the EU-US Data Privacy Framework."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to download an app to use nativ translator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No download is required. nativ translator runs entirely in your web browser. You can also install it as a Progressive Web App (PWA) on your phone or tablet for an app-like experience without visiting the app store."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does nativ translator work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "nativ translator uses Google Gemini's Live AI for simultaneous voice interpretation. Your voice is captured as native audio, sent directly to the AI without any text conversion, and the translated audio comes back in real-time — preserving the natural nuances, tone, and emotion of the original speech."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does nativ translator understand the topic of conversation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — this is one of its most powerful advantages. Because nativ translator uses Google Gemini's full language model, it understands the context of what is being discussed. A medical conversation automatically uses proper clinical terms. A technical briefing gets the right industry jargon. A legal discussion uses precise legal language. Casual small talk stays natural and colloquial — the AI adapts, not you."
+          }
+        }
+      ]
+    }
+  ]
+  </script>
+
+  <link rel="preconnect" href="https://generativelanguage.googleapis.com">
+  <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com">
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="any" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/app-icon.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      font-family: system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    #prerender-shell {
+      background: #000;
+      min-height: 100dvh;
+    }
+    #prerender-shell .shell-inner {
+      max-width: 26rem;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    #prerender-shell .shell-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 480px;
+      height: 280px;
+      background: radial-gradient(ellipse at center top, rgba(99,102,241,0.13) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    #prerender-shell .logo-wrap {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, #6366f1 0%, #2563eb 50%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 0 48px rgba(99,102,241,0.3), 0 0 96px rgba(6,182,212,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    #prerender-shell .logo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 60%);
+    }
+    #prerender-shell h1 {
+      font-size: 2.125rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 40%, #c7d2fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 0.25rem;
+      letter-spacing: -0.04em;
+      text-align: center;
+    }
+    #prerender-shell .subtitle {
+      color: #52525b;
+      font-size: 0.85rem;
+      margin: 0 0 1.5rem;
+      text-align: center;
+    }
+    #prerender-shell .tagline {
+      color: #d4d4d8;
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.55;
+      text-align: center;
+      margin: 0 0 2rem;
+      max-width: 320px;
+    }
+    #prerender-shell .section-label {
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: #52525b;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin: 0 0 0.875rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      width: 100%;
+    }
+    #prerender-shell .section-label::before,
+    #prerender-shell .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #27272a);
+    }
+    #prerender-shell .section-label::after {
+      background: linear-gradient(90deg, #27272a, transparent);
+    }
+    #prerender-shell .usp-section {
+      width: 100%;
+      margin-bottom: 2.25rem;
+    }
+    #prerender-shell .usp-card {
+      background: linear-gradient(135deg, #0f0f23 0%, #0a0a14 100%);
+      border: 1px solid #1e1b4b;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      will-change: transform;
+    }
+    #prerender-shell .usp-card:has(.usp-icon-audio):hover {
+      border-color: #312e81;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(99,102,241,0.1);
+    }
+    #prerender-shell .usp-card:has(.usp-icon-nuance):hover {
+      border-color: #164e63;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(6,182,212,0.1);
+    }
+    #prerender-shell .usp-card:has(.usp-icon-speed):hover {
+      border-color: #422006;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(234,179,8,0.07);
+    }
+    #prerender-shell .usp-card:has(.usp-icon-context):hover {
+      border-color: #064e3b;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(16,185,129,0.09);
+    }
+    #prerender-shell .usp-card:last-child {
+      margin-bottom: 0;
+    }
+    #prerender-shell .usp-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.625rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    #prerender-shell .usp-icon svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+    #prerender-shell .usp-icon-audio { background: rgba(99,102,241,0.15); }
+    #prerender-shell .usp-icon-nuance { background: rgba(6,182,212,0.15); }
+    #prerender-shell .usp-icon-speed { background: rgba(234,179,8,0.15); }
+    #prerender-shell .usp-icon-context { background: rgba(16,185,129,0.15); }
+    #prerender-shell .usp-text h3 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #e4e4e7;
+      margin: 0 0 0.25rem;
+    }
+    #prerender-shell .usp-text p {
+      font-size: 0.75rem;
+      color: #71717a;
+      margin: 0;
+      line-height: 1.55;
+    }
+    #prerender-shell .features {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2.25rem;
+    }
+    #prerender-shell .feature-pill {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.75rem;
+      color: #a1a1aa;
+      font-weight: 500;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    #prerender-shell .feature-pill:hover {
+      border-color: #3f3f46;
+      color: #d4d4d8;
+    }
+    #prerender-shell .feature-pill-highlight {
+      border-color: #6366f1;
+      color: #a5b4fc;
+      background: rgba(99,102,241,0.08);
+      box-shadow: 0 0 12px rgba(99,102,241,0.18);
+    }
+    #prerender-shell .lang-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      justify-content: center;
+      max-width: 360px;
+      margin-bottom: 2.25rem;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 120px;
+    }
+    #prerender-shell .lang-tag {
+      font-size: 0.65rem;
+      color: #52525b;
+      background: #0a0a0a;
+      border: 1px solid #1c1c20;
+      border-radius: 4px;
+      padding: 0.15rem 0.45rem;
+    }
+    #prerender-shell .faq {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 2rem;
+      content-visibility: auto;
+      contain-intrinsic-size: auto 600px;
+    }
+    #prerender-shell .faq details {
+      border-bottom: 1px solid #1a1a1e;
+      padding: 0;
+    }
+    #prerender-shell .faq summary {
+      font-size: 0.8rem;
+      color: #d4d4d8;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 500;
+      padding: 0.75rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      user-select: none;
+      transition: color 0.15s;
+    }
+    #prerender-shell .faq summary:hover {
+      color: #fff;
+    }
+    #prerender-shell .faq summary::-webkit-details-marker { display: none; }
+    #prerender-shell .faq summary::after {
+      content: '';
+      width: 0.5rem;
+      height: 0.5rem;
+      border-right: 1.5px solid #52525b;
+      border-bottom: 1.5px solid #52525b;
+      transform: rotate(-45deg);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    #prerender-shell .faq details[open] > summary::after {
+      transform: rotate(45deg);
+    }
+    #prerender-shell .faq .faq-answer {
+      font-size: 0.7rem;
+      color: #71717a;
+      margin: 0;
+      padding: 0 0 0.75rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    #prerender-shell .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #27272a, transparent);
+      margin: 0 0 1.75rem;
+    }
+    #prerender-shell .warnings {
+      width: 100%;
+      background: #0a0a0a;
+      border: 1px solid #1c1c20;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    #prerender-shell .warn-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.625rem;
+      padding: 0.75rem 1rem;
+    }
+    #prerender-shell .warn-item + .warn-item {
+      border-top: 1px solid #1c1c20;
+    }
+    #prerender-shell .warn-item svg {
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+    }
+    #prerender-shell .warn-item p {
+      font-size: 0.75rem;
+      color: #71717a;
+      margin: 0;
+      line-height: 1.5;
+      text-align: left;
+    }
+    #prerender-shell .warn-item strong {
+      color: #d4d4d8;
+      font-weight: 600;
+    }
+    #prerender-shell .consent-checks {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+    #prerender-shell .consent-checks label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    #prerender-shell .consent-checks label:hover span {
+      color: #d4d4d8;
+    }
+    #prerender-shell .consent-checks input[type="checkbox"] {
+      margin-top: 0.2rem;
+      width: 1.125rem;
+      height: 1.125rem;
+      accent-color: #3b82f6;
+      flex-shrink: 0;
+    }
+    #prerender-shell .consent-checks span {
+      font-size: 0.85rem;
+      color: #71717a;
+      line-height: 1.5;
+      transition: color 0.15s;
+    }
+    #prerender-shell .consent-checks span strong {
+      color: #d4d4d8;
+      font-weight: 600;
+    }
+    #prerender-shell .consent-checks button {
+      color: #3b82f6;
+      text-decoration: underline;
+    }
+    #prerender-shell .consent-checks button:hover {
+      color: #60a5fa;
+    }
+    #prerender-shell .cta-btn {
+      width: 100%;
+      padding: 0.9375rem;
+      border-radius: 0.75rem;
+      border: none;
+      background: linear-gradient(135deg, #6366f1 0%, #2563eb 100%);
+      color: #fff;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s, box-shadow 0.2s;
+      margin-bottom: 0.625rem;
+      box-shadow: 0 0 24px rgba(99,102,241,0.3), 0 4px 12px rgba(0,0,0,0.4);
+    }
+    #prerender-shell .cta-btn:hover:not(:disabled) {
+      opacity: 0.9;
+      box-shadow: 0 0 32px rgba(99,102,241,0.45), 0 4px 16px rgba(0,0,0,0.5);
+    }
+    #prerender-shell .cta-btn:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+    #prerender-shell .cta-btn:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
+    #prerender-shell .footer-note {
+      font-size: 0.7rem;
+      color: #27272a;
+      text-align: center;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Landing page — static HTML for SEO crawlability. Redirects returning visitors immediately. -->
+  <main id="prerender-shell" aria-labelledby="app-title" data-testid="screen-consent">
+    <div class="shell-inner">
+
+      <!-- Hero -->
+      <div class="logo-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden="true" style="position:relative;z-index:1">
+          <path d="M8 34l-3 5V12a4 4 0 014-4h18a4 4 0 014 4v14a4 4 0 01-4 4H14z" fill="#3b82f6"/>
+          <g opacity="0.7" stroke="#fff" stroke-width="1.2" stroke-linecap="round">
+            <line x1="13" y1="16" x2="13" y2="24"/><line x1="15.5" y1="14" x2="15.5" y2="26"/>
+            <line x1="18" y1="17" x2="18" y2="23"/><line x1="20.5" y1="13" x2="20.5" y2="27"/>
+            <line x1="23" y1="16" x2="23" y2="24"/><line x1="25.5" y1="14" x2="25.5" y2="26"/>
+          </g>
+          <path d="M40 14l3-5v27a4 4 0 01-4 4H21a4 4 0 01-4-4V22a4 4 0 014-4h13z" fill="#e4e4e7"/>
+          <g opacity="0.45" stroke="#52525b" stroke-width="1.2" stroke-linecap="round">
+            <line x1="23" y1="24" x2="23" y2="32"/><line x1="25.5" y1="22" x2="25.5" y2="34"/>
+            <line x1="28" y1="25" x2="28" y2="31"/><line x1="30.5" y1="21" x2="30.5" y2="35"/>
+            <line x1="33" y1="24" x2="33" y2="32"/><line x1="35.5" y1="22" x2="35.5" y2="34"/>
+          </g>
+        </svg>
+      </div>
+      <h1 id="app-title" data-testid="text-consent-title">nativ translator</h1>
+      <p class="subtitle">Real-time AI voice translation · 24 languages · Free</p>
+      <p class="tagline">Native audio in, native audio out. No text in between — just your voice, naturally translated.</p>
+
+      <!-- USP Section -->
+      <h2 class="section-label">Why nativ translator is different</h2>
+      <div class="usp-section">
+        <div class="usp-card">
+          <div class="usp-icon usp-icon-audio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M8 7v10M4 10v4M16 7v10M20 10v4"/></svg>
+          </div>
+          <div class="usp-text">
+            <h3>Pure Audio — No Text Layer</h3>
+            <p>Unlike other translators, we never convert your speech to text first. Your voice goes in as audio and comes out as audio — preserving the natural flow and meaning of what you say.</p>
+          </div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon usp-icon-nuance">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <div class="usp-text">
+            <h3>Hear the Nuances</h3>
+            <p>Tone, emotion, emphasis — traditional translators strip all of that away. nativ translator keeps the subtle nuances of the speaker's voice, so translations sound human, not robotic.</p>
+          </div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon usp-icon-speed">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="usp-text">
+            <h3>The Fastest Translator Available</h3>
+            <p>Direct audio-to-audio processing powered by Google Gemini Live means near-instant translations. No waiting for speech-to-text-to-text-to-speech — just real-time interpretation at conversation speed.</p>
+          </div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon usp-icon-context">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M6.3 6.3a8 8 0 000 11.4"/><path d="M17.7 17.7a8 8 0 000-11.4"/><path d="M3.5 3.5a14 14 0 000 17"/><path d="M20.5 20.5a14 14 0 000-17"/></svg>
+          </div>
+          <div class="usp-text">
+            <h3>Context-Aware — Not Word-for-Word</h3>
+            <p>The AI understands what the conversation is about and adapts automatically. A medical discussion gets clinical precision. A technical briefing gets the right jargon. Casual chat stays natural. No rigid literal translation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features (key highlights only — BYOK moved below) -->
+      <div class="features">
+        <span class="feature-pill feature-pill-highlight">Native Audio</span>
+        <span class="feature-pill">Google Gemini AI</span>
+        <span class="feature-pill">Free</span>
+        <span class="feature-pill">No Download</span>
+        <span class="feature-pill">Real-Time</span>
+        <span class="feature-pill">Multiple Voices</span>
+        <span class="feature-pill">Funny Mode</span>
+      </div>
+
+      <!-- Warnings -->
+      <div class="warnings">
+        <div class="warn-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#eab308" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+          <p><strong>AI only — not for critical use.</strong> Do not rely on translations for medical, legal, or safety decisions.</p>
+        </div>
+        <div class="warn-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="#60a5fa" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <p><strong>Privacy.</strong> Voice is processed by <strong>Google LLC</strong> via cloud AI. We do not store your audio.</p>
+        </div>
+      </div>
+
+      <!-- Consent checkboxes -->
+      <div class="consent-checks">
+        <label data-testid="label-consent-age">
+          <input type="checkbox" id="shell-age-check" data-testid="checkbox-consent-age">
+          <span>I am at least <strong>16 years old</strong> and accept the <button type="button" id="shell-privacy-link" style="color:#3b82f6;text-decoration:underline;background:none;border:none;padding:0;font:inherit;cursor:pointer" data-testid="link-consent-privacy">Privacy Policy</button> &amp; <button type="button" id="shell-imprint-link" style="color:#3b82f6;text-decoration:underline;background:none;border:none;padding:0;font:inherit;cursor:pointer" data-testid="link-consent-imprint">Legal Notice</button>.</span>
+        </label>
+        <label data-testid="label-consent-audio">
+          <input type="checkbox" id="shell-audio-check" data-testid="checkbox-consent-audio">
+          <span>I consent to voice processing by <strong>Google LLC</strong> for real-time translation.</span>
+        </label>
+      </div>
+
+      <!-- CTA -->
+      <button class="cta-btn" id="shell-cta" disabled data-testid="button-consent-accept">Start Translating →</button>
+      <p class="footer-note">This screen will not appear again after you continue.</p>
+
+      <!-- ── Secondary info — optional reading below the fold ── -->
+      <div class="divider" style="margin-top:2rem;"></div>
+
+      <!-- Languages -->
+      <h2 class="section-label">24 Supported Languages</h2>
+      <div class="lang-list" aria-label="Supported languages">
+        <span class="lang-tag">English</span>
+        <span class="lang-tag">Deutsch</span>
+        <span class="lang-tag">Español</span>
+        <span class="lang-tag">Français</span>
+        <span class="lang-tag">Italiano</span>
+        <span class="lang-tag">Português</span>
+        <span class="lang-tag">Nederlands</span>
+        <span class="lang-tag">Polski</span>
+        <span class="lang-tag">Čeština</span>
+        <span class="lang-tag">Svenska</span>
+        <span class="lang-tag">Română</span>
+        <span class="lang-tag">Magyar</span>
+        <span class="lang-tag">Ελληνικά</span>
+        <span class="lang-tag">Українська</span>
+        <span class="lang-tag">Русский</span>
+        <span class="lang-tag">中文</span>
+        <span class="lang-tag">日本語</span>
+        <span class="lang-tag">한국어</span>
+        <span class="lang-tag">हिन्दी</span>
+        <span class="lang-tag">العربية</span>
+        <span class="lang-tag">Türkçe</span>
+        <span class="lang-tag">Tiếng Việt</span>
+        <span class="lang-tag">ไทย</span>
+        <span class="lang-tag">Bahasa Indonesia</span>
+      </div>
+
+      <!-- BYOK note -->
+      <div class="features" style="margin-bottom:2rem;">
+        <span class="feature-pill">BYOK — Bring Your Own Key</span>
+      </div>
+
+      <!-- FAQ -->
+      <h2 class="section-label">Frequently Asked Questions</h2>
+      <div class="faq">
+        <details>
+          <summary>What is nativ translator?</summary>
+          <p class="faq-answer">nativ translator (Native Translator) is a free real-time AI voice translation app. It lets two people speak different languages and instantly hear each other's words translated — no typing, no app download, no account required. Unlike conventional translators, it works entirely with native audio: voice in, voice out.</p>
+        </details>
+        <details>
+          <summary>Why is nativ translator the fastest translator?</summary>
+          <p class="faq-answer">Most translators follow a 4-step process: speech to text, text translation, translated text to speech. nativ translator skips the text layer entirely. Your voice is processed directly as audio by Google Gemini Live AI, resulting in near-instant translations at natural conversation speed — making it the fastest real-time translator currently available.</p>
+        </details>
+        <details>
+          <summary>What is Funny Mode?</summary>
+          <p class="faq-answer">Funny Mode is a unique feature that adds humor and personality to your translations. Instead of dry, literal translations, the AI interprets your words with a playful, witty twist — perfect for casual conversations, parties, or just having fun with friends across language barriers. Toggle it on in the settings and watch your translations come alive.</p>
+        </details>
+        <details>
+          <summary>Can I choose different voices?</summary>
+          <p class="faq-answer">Yes! nativ translator offers multiple AI voices to choose from. Whether you prefer a warm, deep tone or a bright, energetic one — you can select the voice that feels most natural for your conversation. Each voice is powered by Google Gemini and sounds remarkably human and expressive.</p>
+        </details>
+        <details>
+          <summary>Is nativ translator free?</summary>
+          <p class="faq-answer">Yes, nativ translator is completely free to use. You only need a Google Gemini API key, which Google provides free of charge. No subscription, no in-app purchases.</p>
+        </details>
+        <details>
+          <summary>Why do I need my own Google API key?</summary>
+          <p class="faq-answer">nativ translator is a free, open project with no ads and no in-app purchases. Native audio-to-audio processing through Google Gemini is significantly more expensive than the simple text-based translation other apps use. Passing that cost on to the developer would make a free service impossible. By using your own free Gemini API key, you get unlimited personal use at zero cost — and your data stays between you and Google, with no middleman.</p>
+        </details>
+        <details>
+          <summary>Which languages does nativ translator support?</summary>
+          <p class="faq-answer">nativ translator supports 24 languages including English, German, Spanish, French, Italian, Portuguese, Chinese, Japanese, Korean, Arabic, Hindi, Dutch, Russian, Polish, Turkish, Czech, Swedish, Romanian, Hungarian, Greek, Ukrainian, Vietnamese, Thai, and Indonesian.</p>
+        </details>
+        <details>
+          <summary>Does nativ translator store my voice data?</summary>
+          <p class="faq-answer">No. Your voice is streamed in real-time to Google LLC via the Gemini Live API for translation, and not retained. Google LLC is certified under the EU-US Data Privacy Framework.</p>
+        </details>
+        <details>
+          <summary>Do I need to download an app?</summary>
+          <p class="faq-answer">No download is required. nativ translator runs entirely in your web browser. You can also install it as a Progressive Web App (PWA) for an app-like experience.</p>
+        </details>
+        <details>
+          <summary>How does nativ translator work?</summary>
+          <p class="faq-answer">nativ translator uses Google Gemini's Live AI for simultaneous voice interpretation. Your voice is captured as native audio, sent directly to the AI without any text conversion, and the translated audio comes back in real-time — preserving the natural nuances, tone, and emotion of the original speech.</p>
+        </details>
+        <details>
+          <summary>Does nativ translator understand the topic of conversation?</summary>
+          <p class="faq-answer">Yes — this is one of its most powerful advantages. Because it uses Google Gemini's full language model rather than a simple phrase-matching engine, nativ translator understands the context of what is being discussed. A medical conversation automatically uses proper clinical terms. A technical briefing gets the right industry jargon. A legal discussion uses precise legal language. Casual small talk stays natural and colloquial — the AI adapts, not you.</p>
+        </details>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Page logic: redirect returning users; wire consent form for new users -->
+  <script>
+    (function() {
+      try {
+        var consent = localStorage.getItem('native-translator-consent-v1') === 'accepted'
+          || document.cookie.indexOf('nt_consent_v1=accepted') !== -1;
+        if (consent) { window.location.replace('/app'); return; }
+      } catch(e) {}
+
+      var ageBox     = document.getElementById('shell-age-check');
+      var audioBox   = document.getElementById('shell-audio-check');
+      var cta        = document.getElementById('shell-cta');
+      var privacyLink = document.getElementById('shell-privacy-link');
+      var imprintLink = document.getElementById('shell-imprint-link');
+
+      if (!ageBox || !audioBox || !cta) return;
+
+      function updateBtn() { cta.disabled = !(ageBox.checked && audioBox.checked); }
+      ageBox.addEventListener('change', updateBtn);
+      audioBox.addEventListener('change', updateBtn);
+
+      cta.addEventListener('click', function() {
+        if (!ageBox.checked || !audioBox.checked) return;
+        try { localStorage.setItem('native-translator-consent-v1', 'accepted'); } catch(e) {}
+        var exp = new Date(Date.now() + 2 * 365 * 24 * 60 * 60 * 1000).toUTCString();
+        document.cookie = 'nt_consent_v1=accepted; expires=' + exp + '; path=/; SameSite=Lax';
+        window.location.replace('/app');
+      });
+
+      if (privacyLink) privacyLink.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); window.location.href = '/app#privacy'; });
+      if (imprintLink) imprintLink.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); window.location.href = '/app#imprint'; });
+    })();
+  </script>
+</body>
+</html>

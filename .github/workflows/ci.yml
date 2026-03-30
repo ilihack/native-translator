@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  checks:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript
+        run: bash scripts/check-typecheck.sh
+
+      - name: ESLint
+        run: bash scripts/check-lint.sh
+
+      - name: Unit Tests
+        run: bash scripts/check-tests.sh
+
+      - name: Production Build
+        run: bash scripts/check-build.sh
+
+      - name: JSDoc Headers
+        run: bash scripts/check-jsdoc.sh
+
+      - name: No Stray Logs
+        run: bash scripts/check-stray-logs.sh
+
+      - name: Service Worker Consistency
+        run: bash scripts/check-sw-consistency.sh
+
+      - name: Branding Check
+        run: bash scripts/check-branding.sh
